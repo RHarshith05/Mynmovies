@@ -100,8 +100,8 @@ export default function Home() {
 
   return (
     <>
-    <div className='About-navbar'>    
-      <Navbar/>
+      <div className="About-navbar">
+        <Navbar />
       </div>
       <div className="grid-container">
         {moviedata.length > 0 ? (

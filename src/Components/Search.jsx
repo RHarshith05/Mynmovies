@@ -1,27 +1,29 @@
-
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import Card from './Card';
-import Navbar from './Navbar';
-
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import Card from "./Card";
+import Navbar from "./Navbar";
 
 async function fetchMoviesBySearch(query) {
   try {
-    const response = await fetch(`http://www.omdbapi.com/?s=${query}&apikey=803386cc`);
+    const response = await fetch(
+      `http://www.omdbapi.com/?s=${query}&apikey=803386cc`
+    );
     const data = await response.json();
-    console.log('Searched data', data);
-    return data.Search || []; 
+    console.log("Searched data", data);
+    return data.Search || [];
   } catch (error) {
-    console.error('Error fetching search results:', error);
+    console.error("Error fetching search results:", error);
     return [];
   }
 }
 
 async function fetchMovieDetails(imdbID) {
   try {
-    const response = await fetch(`http://www.omdbapi.com/?i=${imdbID}&apikey=803386cc`);
+    const response = await fetch(
+      `http://www.omdbapi.com/?i=${imdbID}&apikey=803386cc`
+    );
     const data = await response.json();
-    return data; 
+    return data;
   } catch (error) {
     console.error(`Error fetching details for movie ID ${imdbID}:`, error);
     return null;
@@ -30,29 +32,27 @@ async function fetchMovieDetails(imdbID) {
 
 function Search() {
   const location = useLocation();
-  const query = new URLSearchParams(location.search).get('query'); 
-  const [moviedata, setmoviedata] = useState([]); 
-  const [loading, setLoading] = useState(true); 
+  const query = new URLSearchParams(location.search).get("query");
+  const [moviedata, setmoviedata] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMovies = async () => {
       setLoading(true);
       if (query) {
-        
         const searchResults = await fetchMoviesBySearch(query);
-        
-       
+
         const detailedMovies = await Promise.all(
           searchResults.map(async (movie) => {
             const details = await fetchMovieDetails(movie.imdbID);
-            return details; 
+            return details;
           })
         );
 
         setmoviedata(detailedMovies);
-        console.log('Detailed Results:', detailedMovies);
+        console.log("Detailed Results:", detailedMovies);
       }
-      setLoading(false); 
+      setLoading(false);
     };
 
     fetchMovies();
