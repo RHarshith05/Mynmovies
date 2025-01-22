@@ -19,15 +19,15 @@ function Signup() {
         phone:phone,
         gender:gender
     }
-    if(user.password === user.confirmpassword ) 
-        {
-            userList.push(user);
-            navigate('/Home')
-
-        }
-    else{
-        alert('Please Confirm your password')
-    }
+    if (user.password === user.confirmpassword) {
+      userList.push(user);
+      localStorage.setItem("userList", JSON.stringify(userList));
+      console.log(`{isLoggedIn}`)
+      localStorage.setItem("isLoggedIn", "true"); 
+      navigate('/Home'); 
+  } else {
+      alert('Please confirm your password');
+  }
     
    localStorage.setItem('userList',JSON.stringify(userList))
 

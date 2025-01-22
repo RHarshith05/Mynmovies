@@ -17,6 +17,7 @@ function Login() {
       if (user) {
         console.log("Login successful!");
         alert("Login successful!");
+        localStorage.setItem("isLoggedIn", "true");
         navigate('/Home')
     
         
@@ -26,6 +27,8 @@ function Login() {
       }
 
   };
+
+
   return (
     <div className="maincard">
       <div className="Login-card">

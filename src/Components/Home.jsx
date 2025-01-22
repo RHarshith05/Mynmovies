@@ -4,6 +4,7 @@ import "../App.css";
 import { Link } from "react-router-dom";
 import Card from "./Card";
 import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
 
 async function fetchmoviedetails(imdbID) {
   try {
@@ -82,6 +83,7 @@ export default function Home() {
   //     imdbIDs.push(id);
   // }
 
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchallmovies = async () => {
       const fetchedmoviesdata = [];
@@ -98,6 +100,12 @@ export default function Home() {
     fetchallmovies();
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    alert("Logged out successfully!");
+    navigate("/"); 
+};
+
   return (
     <>
       <div className="About-navbar">
@@ -112,6 +120,7 @@ export default function Home() {
           <p>Loading movies...</p>
         )}
       </div>
+      <button onClick={handleLogout}>Logout</button>
     </>
   );
 }
