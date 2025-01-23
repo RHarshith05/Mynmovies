@@ -12,7 +12,7 @@ async function fetchmoviedetails(imdbID) {
     );
   
     const data = await response.json();
-    console.log("Parsed data", data);
+    // console.log("Parsed data", data);
     // if(data && data.response === "true")
     return data;
   } catch (error) {

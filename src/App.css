@@ -443,3 +443,29 @@
   border:1px solid #ccc;
 }
 
+
+/* 
+Styling for Pagination */
+
+.pagination{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  width: 100vw;
+  font-size: large;
+
+}
+
+.pagination button{
+  font-size: large;
+  margin-left: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+
+
+
+
+

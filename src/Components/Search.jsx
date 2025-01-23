@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Card from "./Card";
 import Navbar from "./Navbar";
+import "../App.css"
 
 async function fetchMoviesBySearch(query) {
   try {
@@ -35,6 +36,7 @@ function Search() {
   const query = new URLSearchParams(location.search).get("query");
   const [moviedata, setmoviedata] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page,setPage]=useState(1);
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -58,6 +60,15 @@ function Search() {
     fetchMovies();
   }, [query]);
 
+  const totalPages=Math.ceil(moviedata.length/3);
+
+  const handlePrevpage=()=>{
+    if(page>1) setPage(page-1);
+  }
+  const handleNextpage=()=>{
+    if(page<totalPages)setPage(page+1);
+  }
+
   return (
     <>
       <div className="About-navbar">
@@ -67,15 +78,32 @@ function Search() {
         {loading ? (
           <p>Loading search results...</p>
         ) : moviedata.length > 0 ? (
+          <>
           <div className="grid-container">
-            {moviedata.map((movie, index) => (
+            {moviedata.slice(page*3-3,page*3).map((movie, index) => (
               <Card key={index} moviedata={movie} />
             ))}
           </div>
+          <div className="pagination">
+            <button
+            disabled={page===1}
+            onClick={handlePrevpage}
+
+            >Prevoius</button>
+            <span>Page {page} of {totalPages}</span>
+            <button
+            onClick={handleNextpage}
+            disabled={page===totalPages}
+            >Next</button>
+          </div>
+          </>
+
         ) : (
           <p>No movies found for "{query}".</p>
         )}
+        
       </div>
+  
     </>
   );
 }
