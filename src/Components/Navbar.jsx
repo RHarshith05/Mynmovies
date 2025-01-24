@@ -4,6 +4,7 @@ import "../App.css";
 
 function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
@@ -12,6 +13,8 @@ function Navbar() {
       navigate(`/search?query=${searchQuery}`);
     }
   };
+
+  
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import { useEffect } from "react";
 import "../App.css";
 import Card from "./Card";
@@ -27,6 +27,7 @@ export default function Home() {
   const [loading,setLoading] = useState(false);
   const [currentID,setCurrentID] = useState(1201607);
   const navigate = useNavigate();
+  const loader= useRef(false);
 
   // These two are to fetch the details manually and fetch from the array 
   // const imdbIDs = [
@@ -73,6 +74,7 @@ export default function Home() {
       }
       id++;
     }
+    console.log(movies);
     return {movies,nextID:id};
 
   }
@@ -91,6 +93,8 @@ export default function Home() {
 
   },[])
 
+
+  //To Implement Infinite Scroll w.r.t window sizes and eventListeners
   const handleScroll = async()=>{
     if(document.body.scrollHeight-300<window.innerHeight+window.scrollY)
     {
@@ -121,6 +125,35 @@ export default function Home() {
   //     }
   //   }
 
+  //To implement the Infinite Scroll using useRef Concept
+
+  // useEffect(()=>{
+  //   const observer = new IntersectionObserver(
+  //     async(entries)=>{
+  //       const entry=entries[0];
+  //       if(entry.isIntersecting && !loading)
+  //       {
+  //         setLoading(true);
+  //         const {movies,nextID}= await fetchMoviesbyBatch(currentID,10);
+  //         setmoviedata((prev) => [...prev, ...movies]);
+  //         setCurrentID(nextID);
+  //         setLoading(false);
+
+  //       }
+  //     },
+  //     { threshold: 0.8 } 
+  //   )
+  //   if (loader.current) {
+  //     observer.observe(loader.current);
+  //   }
+  //   return () => {
+  //     if (loader.current) {
+  //       observer.unobserve(loader.current);
+  //     }
+  //   };
+    
+  // },[currentID,loading])
+
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
@@ -145,7 +178,13 @@ export default function Home() {
           <p>Loading movies...</p>
         )}
       </div>
+      {/* <div ref={loader} className="loader">
+        {loading && <p>Loading more movies...</p>}
+      </div> */}
       <button onClick={handleLogout}>Logout</button>
     </>
   );
 }
+
+
+
